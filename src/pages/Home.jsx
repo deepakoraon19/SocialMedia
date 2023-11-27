@@ -1,8 +1,10 @@
 import React from 'react'
-
-const Home = () => {
+import Sidebar from '../components/Sidebar'
+const Home = (user) => {
   return (
-    <div>Home</div>
+    <div>
+      <Sidebar user={user}></Sidebar>
+    </div>
   )
 }
 
