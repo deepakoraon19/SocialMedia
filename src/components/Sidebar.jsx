@@ -9,7 +9,7 @@ function Sidebar(user) {
     <Stack direction="column" spacing={2} width='15vw' alignItems="center">
       <Avatar sx={{ width: 90, height: 90 }} src="https://i.pinimg.com/originals/e0/d7/9d/e0d79ddbcfb5bdaf07ace631b83db7ae.jpg"></Avatar>
       <h2>{user.name}</h2>
-      {options.map(p => <Button>{p}</Button>)}
+      {options.map((p,index) => <Button key={index} >{p}</Button>)}
     </Stack>
   );
 }
