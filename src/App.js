@@ -31,8 +31,9 @@ function App() {
     <div>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/profile:id" element={<Profile />} />
+          <Route path='/' element={<Home />} />
+          <Route path='/profile:id' element={<Profile />} />
+          <Route path='/SocialMediaFrontend' element={<Navigate to='/login' replace />} />
         </Route>
 
         <Route path="/register" element={<Register />} />
