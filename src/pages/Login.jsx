@@ -5,7 +5,8 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import checkCredentials from '../services/userServices';
+import { checkCredentials } from '../services/userServices';
+import createHash from '../Utils/Hashing';
 
 const Login = (props) => {
   const [userName, setUserName] = useState('')
@@ -16,10 +17,10 @@ const Login = (props) => {
 
   const navigate = useNavigate()
 
-  const login = async() => {
+  const login = async () => {
     credentianlsValidationChecks()
-    let user = await checkCredentials({ userName: userName, password: password })
-    if(user._id) navigate("/Home")
+    let user = await checkCredentials({ userName: userName, password: createHash(password) })
+    if (user._id) navigate("/Home")
   }
 
   const credentianlsValidationChecks = () => {
@@ -84,12 +85,12 @@ const Login = (props) => {
             <label className="errorLabel">{passwordError}</label>
           </div>
           <br />
-            <Button variant="contained" onClick={login}>Login</Button>
+          <Button variant="contained" onClick={login}>Login</Button>
           <Stack direction="row">
-          <Typography variant="h5" component="h5">
-            Don't have an account?
-          </Typography>
-          <Button onClick={login}>SignUp</Button>
+            <Typography variant="h5" component="h5">
+              Don't have an account?
+            </Typography>
+            <Button onClick={() => { navigate("/signup") }}>SignUp</Button>
           </Stack>
         </div>
       </Box>

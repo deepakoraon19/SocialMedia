@@ -5,6 +5,7 @@ import { Home, Login, Profile, Register, ResetPassword } from "./pages";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Sidebar from "./components/Sidebar";
+import SignUp from "./pages/SignUp";
 
 function App() {
   const [user, setUser] = useState({});
@@ -38,6 +39,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
     </>
