@@ -8,16 +8,28 @@ const headers = {
   "Access-Control-Allow-Credentials": true,
 };
 
+const uri = process.env.REACT_APP_URL;
+
 export const checkCredentials = async (user) => {
-  let res = await axios.post(`${process.env.REACT_APP_URL}/user/login`, user, {
+  let res = await axios.post(`${uri}/user/login`, user, {
     headers: headers,
   });
   return res.data.user;
 };
 
-export const createUser = async(user) => {
-  let res = await axios.post(`${process.env.REACT_APP_URL}/user`, user, {
+export const saveUser = async (user) => {
+  let res = await axios.post(`${uri}/user`, user, {
     headers: headers,
   });
   return res.data.user;
-}
+};
+
+export const getUserInfo = async (userName) => {
+  let res = await axios.get(`${uri}/user`, {
+    headers: headers,
+    params: {
+      userName: userName,
+    },
+  });
+  return res.data.user;
+};

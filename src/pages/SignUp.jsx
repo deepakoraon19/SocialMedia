@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createUser } from '../services/userServices';
+import { saveUser } from '../services/userServices';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -23,16 +23,18 @@ const SignUp = () => {
     const [passwordError, setPasswordError] = useState('')
     const [dob, setDob] = useState(null)
     const [gender, setGender] = useState(true)
+    const [enableSignUp, setenableSignUp] = useState(false)
 
     const navigate = useNavigate()
 
     const signUp = async () => {
         credentianlsValidationChecks()
-        let user = await createUser({ userName: userName, password: createHash(password), firstName: firstName, lastName: lastName, gender: gender, dob: dob.format() })
+        let user = await saveUser({ userName: userName, password: createHash(password), firstName: firstName, lastName: lastName, gender: gender, dob: dob.format() })
         if (user._id) navigate("/Home")
     }
 
     const credentianlsValidationChecks = () => {
+        setenableSignUp(false)
         if (userName === "" && password === "") return
         if ('' === userName) {
             setEmailError('Please enter your username')
@@ -48,6 +50,7 @@ const SignUp = () => {
             setPasswordError('The password must be 8 characters or longer')
             return
         }
+        setenableSignUp(true)
         setPasswordError('')
         setEmailError('')
     }
@@ -127,12 +130,12 @@ const SignUp = () => {
                 </Stack>
             </Stack>
             <br />
-            <Button variant="contained" onClick={signUp}>SignUP</Button>
+            <Button variant="contained" onClick={signUp} disabled={!enableSignUp}>SignUP</Button>
             <Stack direction="row">
                 <Typography variant="h5" component="h5">
                     Don't have an account?
                 </Typography>
-                <Button onClick={() => { navigate("/signup") }}>SignUp</Button>
+                <Button onClick={() => { navigate("/login") }}>Login</Button>
             </Stack>
         </div>
     </Box>
