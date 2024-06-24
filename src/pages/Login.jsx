@@ -19,9 +19,9 @@ const Login = (props) => {
 
   const login = async () => {
     credentianlsValidationChecks()
-    let user = await checkCredentials({ userName: userName, password: createHash(password) })
-    if (user!==null) {
-      localStorage.setItem("userName", user.userName)
+    let res = await checkCredentials({ userName: userName, password: createHash(password) })
+    if (res!==null) {
+      localStorage.setItem("userName", res.userName)
       navigate("/Home")
     } else{
       console.log(createHash(password))

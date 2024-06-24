@@ -1,54 +1,48 @@
 import "./App.css";
 import React from "react";
-import {
-  Outlet,
-  Navigate,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { Home, Login, Profile, Register, ResetPassword } from "./pages";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import Sidebar from "./components/Sidebar";
 import SignUp from "./pages/SignUp";
 import { EditProfile } from "./pages/EditProfile";
-import { getUserInfo } from "./services/userServices";
+// import { getUserInfo } from "./services/userServices";
+import Sidebar from "./components/Sidebar";
 
 function App() {
-  const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const url = window.location.href;
+  const [user, setUser] = useState(null);
 
   useEffect((p) => {
-    const getData = async () => {
-      let userName = localStorage.getItem("userName");
-      if (!userName) navigate("/login");
-      let res = await getUserInfo(userName);
-      setUser(res.user);
-      localStorage.setItem("userName", user);
-    };
-    getData();
+    setUser(getData());
   }, []);
+
+  useEffect((p) => {
+    user !== null && user.length > 0 ? navigate("home") : navigate("login");
+  }, [user]);
+
+  const getData = () => localStorage.getItem("userName");
 
   return (
     <>
-      {user === null && <Sidebar></Sidebar>}
+      {user !== null && !url.includes("login") && !url.includes("signup") && (
+        <Sidebar></Sidebar>
+      )}
       <Routes>
-        <Route>
-          <Route path="/" element={user !== null ? <Home /> : <Login />} />
-          <Route path="/profile:id" element={<Profile />} />
-          <Route
-            path="/SocialMediaFrontend"
-            element={<Navigate to="/login" replace />}
-          />
-        </Route>
+        {/* <Route> */}
+        <Route path="/" />
+        <Route path="/profile:id" element={<Profile />} />
+        <Route
+          path="/SocialMediaFrontend"
+          element={<Navigate to="/login" replace />}
+        />
+        {/* </Route> */}
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="edit-profile" element={<EditProfile />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
       </Routes>
     </>
   );
