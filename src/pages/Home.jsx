@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import Sidebar from '../components/Sidebar'
 import { getUserInfo } from '../services/userServices'
-const Home = () => {
 
+const Home = () => {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
     getUser()
-  },[])
+  }, [])
 
   const getUser = async () => {
-    let user = await getUserInfo(localStorage.getItem("userName"))
+    let user = await getUserInfo(localStorage.getItem("userId"))
     setUser(user)
   }
 

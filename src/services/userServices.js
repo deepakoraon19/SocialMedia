@@ -28,7 +28,7 @@ export const getUserInfo = async (userName) => {
   let res = await axios.get(`${uri}/user`, {
     headers: headers,
     params: {
-      userName: userName,
+      id: userName,
     },
   });
   return res.data.user;

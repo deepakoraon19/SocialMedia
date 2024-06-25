@@ -30,7 +30,7 @@ const SignUp = () => {
     const signUp = async () => {
         credentianlsValidationChecks()
         let user = await saveUser({ userName: userName, password: createHash(password), firstName: firstName, lastName: lastName, gender: gender, dob: dob.format() })
-        if (user._id) navigate("/Home")
+        if (user._id) navigate("/edit-profile")
     }
 
     const credentianlsValidationChecks = () => {
@@ -54,6 +54,7 @@ const SignUp = () => {
         setPasswordError('')
         setEmailError('')
     }
+
     return <Box>
         <div className={'mainContainer'}>
             <div className={'titleContainer'}>
