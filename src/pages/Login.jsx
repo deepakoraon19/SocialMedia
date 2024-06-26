@@ -18,12 +18,12 @@ const Login = (props) => {
   const navigate = useNavigate()
 
   const login = async () => {
-    credentianlsValidationChecks()
+    if (!credentianlsValidationChecks()) return
     let res = await checkCredentials({ userName: userName, password: createHash(password) })
-    if (res!==null) {
+    if (res !== null) {
       localStorage.setItem("userId", res._id)
-      navigate("/Home")
-    } else{
+      navigate("/Socia/home")
+    } else {
       console.log(createHash(password))
     }
   }
@@ -33,21 +33,22 @@ const Login = (props) => {
     if (userName === "" && password === "") return
     if ('' === userName) {
       setEmailError('Please enter your username')
-      return
+      return false
     }
 
     if ('' === password) {
       setPasswordError('Please enter a password')
-      return
+      return false
     }
 
     if (password.length < 5) {
       setPasswordError('The password must be 8 characters or longer')
-      return
+      return false
     }
     setEnableLogin(true)
     setPasswordError('')
     setEmailError('')
+    return true;
   }
 
   return (
@@ -92,7 +93,7 @@ const Login = (props) => {
           <Typography variant="h5" component="h5">
             Don't have an account?
           </Typography>
-          <Button onClick={() => { navigate("/signup") }}>SignUp</Button>
+          <Button onClick={() => { navigate("/socia/signup") }}>SignUp</Button>
         </Stack>
       </div>
     </Box>

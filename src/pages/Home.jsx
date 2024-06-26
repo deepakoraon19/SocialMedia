@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { getUserInfo } from '../services/userServices'
+import { useNavigate } from 'react-router'
 
 const Home = () => {
   const [user, setUser] = useState(null)
-
+  const navigate = useNavigate()
   useEffect(() => {
     getUser()
   }, [])
 
   const getUser = async () => {
-    let user = await getUserInfo(localStorage.getItem("userId"))
+    var userId = localStorage.getItem("userId")
+    if(!userId) navigate("/Socia/login")
+    let user = await getUserInfo(userId)
     setUser(user)
   }
 

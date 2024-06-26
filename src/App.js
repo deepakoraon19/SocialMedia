@@ -12,21 +12,17 @@ function App() {
   const [user, setUser] = useState(() => localStorage.getItem("userId"));
 
   useEffect((p) => {
-    setUser(getData());
+    // setUser(getData());
   }, []);
 
   const getData = () => localStorage.getItem("userId");
 
   function Layout() {
     const location = useLocation();
-    console.log(location)
-    console.log(user);
-    // When the user log-in, the user will get a token
     return user !== null && user.length ? (
-      <Outlet /> // if the user has the token, then it can access all the pages in the outlet
+      <Outlet />
     ) : (
-      // Else navigate the user to login page and also pass the state of location from where it was accessing
-      <Navigate to="/SocialMediaFrontend/login" state={{ from: location }} replace />
+      <Navigate to="/Socia/login" state={{ from: location }} replace />
     );
   }
 
@@ -36,20 +32,15 @@ function App() {
         <Sidebar></Sidebar>
       )}
       <Routes>
-        <Route path="/SocialMediaFrontend" element={<Layout />}>
-            {/* <Route path="/SocialMediaFrontend" element={<Navigate to="/home" replace />} /> */}
-            <Route path="profile:id" element={<Profile />} />
-            {/* <Route
-              path="/SocialMediaFrontend"
-              element={<Navigate to="/login" replace />}
-            /> */}
-            <Route path="reset-password" element={<ResetPassword />} />
-            <Route path="edit-profile" element={<EditProfile />} />
-            <Route path="home" element={<Home />} />
-            <Route path="register" element={<Register />} />
-            <Route path="login" element={<Login />} replace />
-            <Route path="signup" element={<SignUp />} />
-          </Route>
+        <Route path="/Socia" element={<Navigate to="/Socia/home" />} />
+        <Route path="/Socia" element={<Layout />}>
+          <Route path="reset-password" element={<ResetPassword />} />
+          <Route path="edit-profile" element={<EditProfile />} />
+          <Route path="home" element={<Home />} />
+          <Route path="register" element={<Register />} />
+        </Route>
+        <Route path="/Socia/login" element={<Login />} />
+        <Route path="/Socia/signup" element={<SignUp />} />
       </Routes>
     </>
   );

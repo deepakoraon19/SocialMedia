@@ -30,7 +30,7 @@ const SignUp = () => {
     const signUp = async () => {
         credentianlsValidationChecks()
         let user = await saveUser({ userName: userName, password: createHash(password), firstName: firstName, lastName: lastName, gender: gender, dob: dob.format() })
-        if (user._id) navigate("/edit-profile")
+        if (user._id) navigate("/Socia/home")
     }
 
     const credentianlsValidationChecks = () => {
