@@ -1,7 +1,7 @@
 import "./App.css";
 import React from "react";
 import { Navigate, Route, Routes, useLocation, Outlet } from "react-router-dom";
-import { Home, Login, Profile, Register, ResetPassword } from "./pages";
+import { Home, Login, Register, ResetPassword } from "./pages";
 import { useEffect, useState } from "react";
 import SignUp from "./pages/SignUp";
 import { EditProfile } from "./pages/EditProfile";
@@ -12,7 +12,7 @@ function App() {
   const [user, setUser] = useState(() => localStorage.getItem("userId"));
 
   useEffect((p) => {
-    // setUser(getData());
+    setUser(getData());
   }, []);
 
   const getData = () => localStorage.getItem("userId");

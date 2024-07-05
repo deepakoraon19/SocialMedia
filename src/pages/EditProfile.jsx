@@ -12,7 +12,7 @@ export const EditProfile = (profile) => {
     const [phoneNumber, setPhoneNumber] = useState(profile.phoneNmber)
 
     const Save = async () => {
-        const res = await saveUser({ ...profile, phoneNumber: phoneNumber, userName: userName, bio: bio, phoneNumber: phoneNumber, email: email })
+        const res = await saveUser({ ...profile,userName: userName, bio: bio, phoneNumber: phoneNumber, email: email })
     }
     return (<>
         <Stack alignItems={"center"}>
@@ -46,7 +46,7 @@ export const EditProfile = (profile) => {
                 className={'inputBox'}
                 sx={{ my: 2 }}
             />
-            <Button variant="contained" color="secondary"  >Save</Button>
+            <Button variant="contained" color="secondary" onClick={Save}>Save</Button>
         </Stack>
 
     </>)
