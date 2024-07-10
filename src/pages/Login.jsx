@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { checkCredentials } from '../services/userServices';
 import createHash from '../Utils/Hashing';
+import UserContext from '../contexts/userContext';
 
 const Login = (props) => {
   const [userName, setUserName] = useState('')
@@ -14,13 +15,14 @@ const Login = (props) => {
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
   const [enableLogin, setEnableLogin] = useState(false)
-
+  const { setUserId } = useContext(UserContext);
   const navigate = useNavigate()
 
   const login = async () => {
     if (!credentianlsValidationChecks()) return
     let res = await checkCredentials({ userName: userName, password: createHash(password) })
     if (res !== null) {
+      setUserId(res._id)
       localStorage.setItem("userId", res._id)
       navigate("/Socia/home")
     } else {

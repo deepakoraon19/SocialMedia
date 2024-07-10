@@ -12,7 +12,7 @@ export const EditProfile = (profile) => {
     const [phoneNumber, setPhoneNumber] = useState(profile.phoneNmber)
 
     const Save = async () => {
-        const res = await saveUser({ ...profile,userName: userName, bio: bio, phoneNumber: phoneNumber, email: email })
+        const res = await saveUser({ ...profile, userName: userName, bio: bio, phoneNumber: phoneNumber, email: email })
     }
     return (<>
         <Stack alignItems={"center"}>
