@@ -101,3 +101,12 @@
   border: 1px solid grey;
   padding-left: 8px;
 }
+.counter {
+  width: 100px;
+  text-align: center;
+  border: 1px solid gray;
+  border-radius: 4px;
+  padding: 20px;
+  margin: 0 20px 20px 0;
+  float: left;
+}
