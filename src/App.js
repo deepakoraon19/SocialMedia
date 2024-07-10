@@ -1,62 +1,43 @@
 import "./App.css";
 import React from "react";
-import {
-  Navigate,
-  Route,
-  Routes,
-  useLocation,
-  Outlet
-} from "react-router-dom";
-import { Home, Login, Profile, Register, ResetPassword } from "./pages";
-import { useEffect, useState } from "react";
+import { Navigate, Route, Routes, useLocation, Outlet } from "react-router-dom";
+import { Home, Login, Register, ResetPassword } from "./pages";
+import { useState } from "react";
 import SignUp from "./pages/SignUp";
 import { EditProfile } from "./pages/EditProfile";
 import Sidebar from "./components/Sidebar";
+import UserContext from "./contexts/userContext";
 
 function App() {
   const url = window.location.href;
-  const [user, setUser] = useState(()=>localStorage.getItem("userId"));
-
-  useEffect((p) => {
-    setUser(getData());
-  }, []);
-
-  const getData = () => localStorage.getItem("userId");
+  const [userId, setUserId] = useState(()=>localStorage.getItem("userId") ?? "");
 
   function Layout() {
     const location = useLocation();
-    console.log(user)
-    // When the user log-in, the user will get a token
-    return user !== null && user.length ? (
-      <Outlet /> // if the user has the token, then it can access all the pages in the outlet
+    return userId !== "" && userId.length ? (
+      <Outlet />
     ) : (
-      // Else navigate the user to login page and also pass the state of location from where it was accessing
-      <Navigate to="/login" state={{ from: location }} replace />
+      <Navigate to="/Socia/login" state={{ from: location }} replace />
     );
   }
 
   return (
-    <>
-      {user !== null && !url.includes("login") && !url.includes("signup") && (
+    <UserContext.Provider value={{ userId, setUserId }}>
+      {userId !== "" && !url.includes("login") && !url.includes("signup") && (
         <Sidebar></Sidebar>
       )}
       <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Navigate to="/home" replace />}/>
-          <Route path="/profile:id" element={<Profile />} />
-          <Route
-            path="/SocialMediaFrontend"
-            element={<Navigate to="/login" replace />}
-          />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/edit-profile" element={<EditProfile />} />
-          <Route path="/home" element={<Home />} />
+        <Route path="/Socia" element={<Navigate to="/Socia/home" />} />
+        <Route path="/Socia" element={<Layout />}>
+          <Route path="reset-password" element={<ResetPassword />} />
+          <Route path="edit-profile" element={<EditProfile />} />
+          <Route path="home" element={<Home />} />
+          <Route path="register" element={<Register />} />
         </Route>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/Socia/login" element={<Login />} />
+        <Route path="/Socia/signup" element={<SignUp />} />
       </Routes>
-    </>
+    </UserContext.Provider>
   );
 }
 
