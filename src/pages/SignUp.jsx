@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { saveUser } from '../services/userServices';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -12,6 +12,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import Switch from '@mui/material/Switch';
 import dayjs from 'dayjs';
 import createHash from '../Utils/Hashing';
+import UserContext from '../contexts/userContext';
 
 
 const SignUp = () => {
@@ -23,14 +24,20 @@ const SignUp = () => {
     const [passwordError, setPasswordError] = useState('')
     const [dob, setDob] = useState(null)
     const [gender, setGender] = useState(true)
+    const [phone, setPhone] = useState("")
     const [enableSignUp, setenableSignUp] = useState(false)
+    const { userId, setUserId } = useContext(UserContext)
 
     const navigate = useNavigate()
 
     const signUp = async () => {
         credentianlsValidationChecks()
-        let user = await saveUser({ userName: userName, password: createHash(password), firstName: firstName, lastName: lastName, gender: gender, dob: dob.format() })
-        if (user._id) navigate("/Socia/home")
+        let user = await saveUser({ userName: userName, password: createHash(password), firstName: firstName, lastName: lastName, gender: gender, dateOfBirth: dob.format(), phoneNumber: Number(phone) })
+        if (user._id) {
+            localStorage.setItem("userId", user._id)
+            setUserId(user._id)
+            navigate("/Socia/edit-profile")
+        }
     }
 
     const credentianlsValidationChecks = () => {
@@ -62,7 +69,6 @@ const SignUp = () => {
             </div>
             <br />
             <Stack direction={"row"} gap={1}>
-
                 <div className={'inputContainer'}>
                     <TextField label="First Name" color="secondary" focused
                         value={firstName}
@@ -89,24 +95,35 @@ const SignUp = () => {
                 </div>
             </Stack>
             <br />
-            <div className={'inputContainer'}>
-                <TextField label="UserName" color="secondary" focused
-                    value={userName}
-                    // placeholder="Enter your username here"
-                    onChange={(ev) => {
-                        setUserName(ev.target.value)
-                        credentianlsValidationChecks()
-                    }}
-                    className={'inputBox'}
-                    sx={{ mb: 2 }}
-                />
-                <label className="errorLabel">{emailError}</label>
-            </div>
+            <Stack direction={"row"} gap={1}>
+                <div className={'inputContainer'}>
+                    <TextField label="UserName" color="secondary" focused
+                        value={userName}
+                        // placeholder="Enter your username here"
+                        onChange={(ev) => {
+                            setUserName(ev.target.value)
+                            credentianlsValidationChecks()
+                        }}
+                        className={'inputBox'}
+                        sx={{ mb: 2 ,width: 1, mr: 5 }}
+                    />
+                    <label className="errorLabel">{emailError}</label>
+                </div>
+                <div className={'inputContainer'}>
+                    <TextField label="Phone Number" color="secondary" focused
+                        value={phone}
+                        onChange={(ev) => {
+                            setPhone(ev.target.value)
+                        }}
+                        className={'inputBox'}
+                        sx={{ mb: 2, width: 1, mr: 5  }}
+                    />
+                </div>
+            </Stack>
             <br />
             <div className={'inputContainer'}>
                 <TextField label="Password" color="secondary" focused
                     value={password}
-                    // placeholder="Enter your email here"
                     onChange={(ev) => {
                         setPassword(ev.target.value)
                         credentianlsValidationChecks()

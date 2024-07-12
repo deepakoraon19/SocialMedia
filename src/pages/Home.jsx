@@ -19,7 +19,7 @@ const Home = () => {
 
   return (
     <>
-      {loggedInUser === null ? <h1>Loading</h1> : <h1>Hi {loggedInUser.firstName}</h1>}
+      {/* {loggedInUser === null ? <h1>Loading</h1> : <h1>Hi {loggedInUser.firstName}</h1>} */}
     </>
   )
 }

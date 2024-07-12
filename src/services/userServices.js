@@ -24,11 +24,18 @@ export const saveUser = async (user) => {
   return res.data.user;
 };
 
-export const getUserInfo = async (userName) => {
+export const updateUser = async (user) => {
+  let res = await axios.put(`${uri}/user`, user, {
+    headers: headers,
+  });
+  return res.data.user;
+};
+
+export const getUserInfo = async (userId) => {
   let res = await axios.get(`${uri}/user`, {
     headers: headers,
     params: {
-      id: userName,
+      id: userId,
     },
   });
   return res.data.user;
