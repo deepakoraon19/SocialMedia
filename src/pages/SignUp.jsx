@@ -153,7 +153,7 @@ const SignUp = () => {
                 <Typography variant="h5" component="h5">
                     Don't have an account?
                 </Typography>
-                <Button onClick={() => { navigate("/login") }}>Login</Button>
+                <Button onClick={() => { navigate("/Socia/login") }}>Login</Button>
             </Stack>
         </div>
     </Box>

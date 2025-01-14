@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router'
 import UserContext from '../contexts/userContext'
 import { Stack } from '@mui/material'
 import Post from '../components/Post'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../slices/userSlice'
 
 const Home = () => {
@@ -49,6 +49,7 @@ const Home = () => {
   ]
 
   const dispatch = useDispatch();
+  const userState = useSelector(state => state.user.userState)
   useEffect(() => {
     getUser()
   }, [])
@@ -58,7 +59,7 @@ const Home = () => {
     if (userId === "") navigate("/Socia/login")
     let res = await getUserInfo(userId)
     setloggedInUser(res)
-    dispatch(setUser(), res)
+    dispatch(setUser(res))
   }
 
   return (
