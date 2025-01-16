@@ -6,11 +6,13 @@ import { Stack } from '@mui/material'
 import Post from '../components/Post'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../slices/userSlice'
+import { getDistance } from 'geolib';
 
 const Home = () => {
-  const [loggedInUser, setloggedInUser] = useState(null)
   const navigate = useNavigate()
-  const { userId } = useContext(UserContext)
+  const userId = localStorage.getItem("userId") ?? ""
+  const [coordinates, setCoordinates] = useState(null);
+
   const data = [{
     userId: "66910312bd5e781258b05460",
     createdOn: "2024-07-12T10:18:58.575Z", // Sample timestamp
@@ -56,15 +58,42 @@ const Home = () => {
 
 
   const getUser = async () => {
-    if (userId === "") navigate("/Socia/login")
-    let res = await getUserInfo(userId)
-    setloggedInUser(res)
-    dispatch(setUser(res))
+    if (userState._id) {
+      let res = await getUserInfo(userState._id)
+      dispatch(setUser(res))
+    } else if (userId) {
+      let res = await getUserInfo(userId)
+      dispatch(setUser(res))
+    } else {
+      navigate("/Socia/login")
+    }
   }
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setCoordinates({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+          // console.log(position)
+          // console.log(getDistance(position.coords, { latitude: 51.5103, longitude: 7.49347 }))
+        },
+        (error) => {
+          console.error('Error getting geolocation:', error);
+        }
+      );
+
+    } else {
+      console.error('Geolocation not supported by your browser.');
+    }
+  }, []);
 
   return (
     <Stack style={{ margin: 'auto' }} width="80%" alignItems={"center"} spacing={2}>
-      {data.map((p, index) => <Post key={index} createdOn={p.createdOn} captions={p.caption} image={p.image} userName={p.userName}></Post>)}
+      {/* <h1>Home</h1> */}
+      {/* {data.map((p, index) => <Post key={index} createdOn={p.createdOn} captions={p.caption} image={p.image} userName={p.userName}></Post>)} */}
     </Stack>
   )
 }

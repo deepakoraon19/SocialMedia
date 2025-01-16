@@ -2,23 +2,23 @@ import { Stack } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { useContext, useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { getUserInfo, updateUser } from '../services/userServices';
-import UserContext from '../contexts/userContext';
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton'
 import imageCompression from 'browser-image-compression'
 import Slide from '@mui/material/Slide';
+import { useSelector } from 'react-redux';
 
 
 export const EditProfile = ({ setProfilePic }) => {
-    const { userId } = useContext(UserContext);
     const [user, setUser] = useState({})
     const [showNotification, setshowNotification] = useState(false)
     const inputRef = useRef(null);
-    
+    const userState = useSelector(state => state.user.userState)
+
     useEffect(() => {
-        getUserInfo(userId).then(p => setUser(p))
+        getUserInfo(userState._id).then(p => setUser(p))
     }, [])
 
     const Save = async () => {
@@ -38,10 +38,10 @@ export const EditProfile = ({ setProfilePic }) => {
         try {
             const compressedFile = await imageCompression(imageFile, options);
             let base64 = await imageCompression.getDataUrlFromFile(compressedFile);
-            let res = await updateUser({ ...user, profilePic: base64 }); 
+            let res = await updateUser({ ...user, profilePic: base64 });
             if (res) {
                 setUser(res)
-                setProfilePic(res.profilePic) 
+                setProfilePic(res.profilePic)
                 setshowNotification(true)
             }
         } catch (error) {
